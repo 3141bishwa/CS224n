@@ -9,7 +9,7 @@ import random
 class StanfordSentiment:
     def __init__(self, path=None, tablesize = 1000000):
         if not path:
-            path = "utils/datasets/stanfordSentimentTreebank"
+            path = "cs224d/datasets/stanfordSentimentTreebank"
 
         self.path = path
         self.tablesize = tablesize
@@ -45,7 +45,7 @@ class StanfordSentiment:
         self._wordcount = wordcount
         self._revtokens = revtokens
         return self._tokens
-
+    
     def sentences(self):
         if hasattr(self, "_sentences") and self._sentences:
             return self._sentences
@@ -61,7 +61,7 @@ class StanfordSentiment:
                 splitted = line.strip().split()[1:]
                 # Deal with some peculiar encoding issues with this file
                 sentences += [[w.lower().decode("utf-8").encode('latin1') for w in splitted]]
-
+                
         self._sentences = sentences
         self._sentlengths = np.array([len(s) for s in sentences])
         self._cumsentlen = np.cumsum(self._sentlengths)
@@ -82,14 +82,14 @@ class StanfordSentiment:
         sentences = self.sentences()
         rejectProb = self.rejectProb()
         tokens = self.tokens()
-        allsentences = [[w for w in s
+        allsentences = [[w for w in s 
             if 0 >= rejectProb[tokens[w]] or random.random() >= rejectProb[tokens[w]]]
             for s in sentences * 30]
 
         allsentences = [s for s in allsentences if len(s) > 1]
-
+        
         self._allsentences = allsentences
-
+        
         return self._allsentences
 
     def getRandomContext(self, C=5):
@@ -98,7 +98,7 @@ class StanfordSentiment:
         sent = allsent[sentID]
         wordID = random.randint(0, len(sent) - 1)
 
-        context = sent[max(0, wordID - C):wordID]
+        context = sent[max(0, wordID - C):wordID] 
         if wordID+1 < len(sent):
             context += sent[wordID+1:min(len(sent), wordID + C + 1)]
 
@@ -143,7 +143,7 @@ class StanfordSentiment:
             sentence = sentences[i]
             full_sent = " ".join(sentence).replace('-lrb-', '(').replace('-rrb-', ')')
             sent_labels[i] = labels[dictionary[full_sent]]
-
+            
         self._sent_labels = sent_labels
         return self._sent_labels
 

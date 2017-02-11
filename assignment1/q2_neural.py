@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import numpy as np
 import random
 
@@ -7,20 +5,12 @@ from q1_softmax import softmax
 from q2_sigmoid import sigmoid, sigmoid_grad
 from q2_gradcheck import gradcheck_naive
 
-
 def forward_backward_prop(data, labels, params, dimensions):
-    """
-    Forward and backward propagation for a two-layer sigmoidal network
-
+    """ 
+    Forward and backward propagation for a two-layer sigmoidal network 
+    
     Compute the forward propagation and for the cross entropy cost,
     and backward propagation for the gradients for all parameters.
-
-    Arguments:
-    data -- M x Dx matrix, where each row is a training example.
-    labels -- M x Dy matrix, where each row is a one-hot vector.
-    params -- Model parameters, these are unpacked for you.
-    dimensions -- A tuple of input dimension, number of hidden units
-                  and output dimension
     """
 
     ### Unpack network parameters (do not modify)
@@ -38,21 +28,20 @@ def forward_backward_prop(data, labels, params, dimensions):
     ### YOUR CODE HERE: forward propagation
     raise NotImplementedError
     ### END YOUR CODE
-
+    
     ### YOUR CODE HERE: backward propagation
     raise NotImplementedError
     ### END YOUR CODE
-
+    
     ### Stack gradients (do not modify)
-    grad = np.concatenate((gradW1.flatten(), gradb1.flatten(),
+    grad = np.concatenate((gradW1.flatten(), gradb1.flatten(), 
         gradW2.flatten(), gradb2.flatten()))
-
+    
     return cost, grad
-
 
 def sanity_check():
     """
-    Set up fake data and parameters for the neural network, and test using
+    Set up fake data and parameters for the neural network, and test using 
     gradcheck.
     """
     print "Running sanity check..."
@@ -62,19 +51,18 @@ def sanity_check():
     data = np.random.randn(N, dimensions[0])   # each row will be a datum
     labels = np.zeros((N, dimensions[2]))
     for i in xrange(N):
-        labels[i, random.randint(0,dimensions[2]-1)] = 1
-
+        labels[i,random.randint(0,dimensions[2]-1)] = 1
+    
     params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (
         dimensions[1] + 1) * dimensions[2], )
 
-    gradcheck_naive(lambda params:
-        forward_backward_prop(data, labels, params, dimensions), params)
+    gradcheck_naive(lambda params: forward_backward_prop(data, labels, params,
+        dimensions), params)
 
-
-def your_sanity_checks():
+def your_sanity_checks(): 
     """
     Use this space add any additional sanity checks by running:
-        python q2_neural.py
+        python q2_neural.py 
     This function will not be called by the autograder, nor will
     your additional tests be graded.
     """
@@ -82,7 +70,6 @@ def your_sanity_checks():
     ### YOUR CODE HERE
     raise NotImplementedError
     ### END YOUR CODE
-
 
 if __name__ == "__main__":
     sanity_check()
