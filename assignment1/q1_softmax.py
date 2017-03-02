@@ -1,7 +1,7 @@
 import numpy as np
 import random
 
-def softmax(x):
+def softmax(X):
     """
     Compute the softmax function for each row of the input x.
 
@@ -20,18 +20,12 @@ def softmax(x):
     written assignment!
     """
 
-    dim = len(x.shape)
+    if X.ndim > 1:
+        diff = np.exp(X - X.max(axis=1)[:, np.newaxis])
+        return diff/np.sum(diff, axis = 1)[:, np.newaxis]
 
-    #diff = np.array([])
-
-    if dim > 1:
-        diff = x - np.amax(x, axis = 1, keepdims = True)
-
-        return np.exp(diff)/np.sum(np.exp(diff), axis = 1)
-
-    else:
-        diff = x - np.max(x)
-        return np.exp(diff)/np.sum(np.exp(diff))
+    diff = np.exp(X - np.max(X))
+    return diff/np.sum(diff)
 
 
 def test_softmax_basic():

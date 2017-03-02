@@ -13,9 +13,11 @@ def forward_backward_prop(data, labels, params, dimensions):
     and backward propagation for the gradients for all parameters.
     """
 
+    num_train = data.shape[0]
     ### Unpack network parameters (do not modify)
     ofs = 0
     Dx, H, Dy = (dimensions[0], dimensions[1], dimensions[2])
+
 
     W1 = np.reshape(params[ofs:ofs+ Dx * H], (Dx, H))
     ofs += Dx * H
@@ -25,25 +27,39 @@ def forward_backward_prop(data, labels, params, dimensions):
     ofs += H * Dy
     b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
 
-    h = np.dot(W1.dot)
-    gradW1 =
-    graddb1
-    gradW2
-    gradb2
 
-    ### YOUR CODE HERE: forward propagation
-    raise NotImplementedError
-    ### END YOUR CODE
 
-    ### YOUR CODE HERE: backward propagation
-    raise NotImplementedError
-    ### END YOUR CODE
+
+    #Forward Feeding - calculating the loss
+    h = sigmoid(np.dot(data, W1) + b1)
+    
+    score = softmax(np.dot(h, W2) + b2)
+    loss = - np.sum(np.log(score[xrange(num_train), np.argmax(labels, axis = 1)]))
+
+    # Calculating gradient by taking care of gradient matrices in the hidden
+    # layers
+    score -= labels
+
+    grad_layer_2   = np.zeros_like(score)
+    grad_layer_1 = np.zeros_like(h)
+    gradW2    = np.zeros_like(W2)
+    gradW1    = np.zeros_like(W1)
+    gradb2    = np.zeros_like(b2)
+    gradb1    = np.zeros_like(b1)
+
+    gradW2 = np.dot(h.T, score)
+    gradb2 = np.sum(score, axis = 0)
+    grad_layer_2 = np.dot(score, W2.T)
+    grad_layer_1 = sigmoid_grad(h) * grad_layer_2
+
+    gradW1 = np.dot(data.T, grad_layer_1)
+    gradb1 = np.sum(grad_layer_1, axis = 0)
 
     ### Stack gradients (do not modify)
     grad = np.concatenate((gradW1.flatten(), gradb1.flatten(),
         gradW2.flatten(), gradb2.flatten()))
 
-    return cost, grad
+    return loss, grad
 
 def sanity_check():
     """
@@ -73,10 +89,6 @@ def your_sanity_checks():
     your additional tests be graded.
     """
     print "Running your sanity checks..."
-    ### YOUR CODE HERE
-    raise NotImplementedError
-    ### END YOUR CODE
-
 if __name__ == "__main__":
     sanity_check()
     your_sanity_checks()
