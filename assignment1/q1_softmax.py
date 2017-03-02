@@ -20,13 +20,19 @@ def softmax(x):
     written assignment!
     """
 
-    x_shape = x.shape
+    dim = len(x.shape)
 
-    print x_shape
-    ### YOUR CODE HERE
-    ### END YOUR CODE
+    #diff = np.array([])
 
-    return x
+    if dim > 1:
+        diff = x - np.amax(x, axis = 1, keepdims = True)
+
+        return np.exp(diff)/np.sum(np.exp(diff), axis = 1)
+
+    else:
+        diff = x - np.max(x)
+        return np.exp(diff)/np.sum(np.exp(diff))
+
 
 def test_softmax_basic():
     """
@@ -59,9 +65,7 @@ def test_softmax():
     your tests be graded.
     """
     print "Running your tests..."
-    ### YOUR CODE HERE
-    raise NotImplementedError
-    ### END YOUR CODE
+
 
 if __name__ == "__main__":
     test_softmax_basic()
