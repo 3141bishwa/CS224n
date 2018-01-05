@@ -21,11 +21,8 @@ def softmax(x):
          tensor in this problem.
   """
 
-  ### YOUR CODE HERE
-  raise NotImplementedError
-  ### END YOUR CODE
-  
-  return out 
+  c = tf.exp(x)/tf.reduce_sum(tf.exp(x), axis=1)
+  return c
 
 def cross_entropy_loss(y, yhat):
   """
@@ -57,7 +54,7 @@ def cross_entropy_loss(y, yhat):
 
 def test_softmax_basic():
   """
-  Some simple tests to get you started. 
+  Some simple tests to get you started.
   Warning: these are not exhaustive.
   """
   print "Running basic tests..."
@@ -65,6 +62,8 @@ def test_softmax_basic():
       np.array([[1001,1002],[3,4]]), dtype=tf.float32))
   with tf.Session():
       test1 = test1.eval()
+
+  print test1
   assert np.amax(np.fabs(test1 - np.array(
       [0.26894142,  0.73105858]))) <= 1e-6
 
