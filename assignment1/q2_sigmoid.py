@@ -6,10 +6,9 @@ def sigmoid(x):
     """
     
     ### YOUR CODE HERE
-    raise NotImplementedError
     ### END YOUR CODE
-    
-    return x
+    return np.reciprocal(1 + np.exp(-x))
+
 
 def sigmoid_grad(f):
     """
@@ -19,10 +18,10 @@ def sigmoid_grad(f):
     """
     
     ### YOUR CODE HERE
-    raise NotImplementedError
+    #raise NotImplementedError
     ### END YOUR CODE
-    
-    return f
+
+    return np.multiply(f,1 - f)
 
 def test_sigmoid_basic():
     """
@@ -50,7 +49,6 @@ def test_sigmoid():
     """
     print "Running your tests..."
     ### YOUR CODE HERE
-    raise NotImplementedError
     ### END YOUR CODE
 
 if __name__ == "__main__":

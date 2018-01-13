@@ -21,7 +21,15 @@ def softmax(x):
     """
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+
+    if x.ndim == 1:
+        top = np.exp(x- np.amax(x))
+
+        return top/np.sum(top)
+
+    top = np.exp(x - np.amax(x, axis=1)[:,np.newaxis])
+
+    return top/np.sum(top, axis=1)[:,np.newaxis]
     ### END YOUR CODE
     
     return x
@@ -57,8 +65,8 @@ def test_softmax():
     your tests be graded.
     """
     print "Running your tests..."
+    test3 = softmax(np.array([[1001,1002, 1004],[3,4,2], [5,6,7]]))
     ### YOUR CODE HERE
-    raise NotImplementedError
     ### END YOUR CODE  
 
 if __name__ == "__main__":
