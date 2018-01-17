@@ -5,9 +5,9 @@ from q2_sigmoid import sigmoid, sigmoid_grad
 from q2_gradcheck import gradcheck_naive
 
 def forward_backward_prop(data, labels, params, dimensions):
-    """ 
-    Forward and backward propagation for a two-layer sigmoidal network 
-    
+    """
+    Forward and backward propagation for a two-layer sigmoidal network
+
     Compute the forward propagation and for the cross entropy cost,
     and backward propagation for the gradients for all parameters.
     """
@@ -17,7 +17,7 @@ def forward_backward_prop(data, labels, params, dimensions):
     Dx, H, Dy = (dimensions[0], dimensions[1], dimensions[2])
 
     #print data.shape, params.shape, Dx, H, Dy
-    
+
 
     W1 = np.reshape(params[ofs:ofs+ Dx * H], (Dx, H))
     ofs += Dx * H
@@ -38,7 +38,7 @@ def forward_backward_prop(data, labels, params, dimensions):
     cost = -np.sum(np.multiply(labels, np.log(y_hat)))
 
     ### END YOUR CODE
-    
+
     res = y_hat - labels
     ### YOUR CODE HERE: backward propagation
     gradW2 = np.dot(h.T, res)
@@ -47,16 +47,16 @@ def forward_backward_prop(data, labels, params, dimensions):
 
     dh = np.dot(res, W2.T)
     dz1 = sigmoid_grad(h) * dh
-    
+
     gradW1 = np.dot(data.T, dz1)
     gradb1 = np.sum(dz1, axis = 0)
 
     ### END YOUR CODE
-    
+
     ### Stack gradients (do not modify)
-    grad = np.concatenate((gradW1.flatten(), gradb1.flatten(), 
+    grad = np.concatenate((gradW1.flatten(), gradb1.flatten(),
         gradW2.flatten(), gradb2.flatten()))
-    
+
 
     # Checking if the weight vectors and gradients are of the same size
     # print gradW2.shape, W2.shape
@@ -68,7 +68,7 @@ def forward_backward_prop(data, labels, params, dimensions):
 
 def sanity_check():
     """
-    Set up fake data and parameters for the neural network, and test using 
+    Set up fake data and parameters for the neural network, and test using
     gradcheck.
     """
     print "Running sanity check..."
@@ -79,7 +79,7 @@ def sanity_check():
     labels = np.zeros((N, dimensions[2]))
     for i in xrange(N):
         labels[i,random.randint(0,dimensions[2]-1)] = 1
-    
+
     params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (
         dimensions[1] + 1) * dimensions[2], )
 
@@ -87,10 +87,10 @@ def sanity_check():
     gradcheck_naive(lambda params: forward_backward_prop(data, labels, params, dimensions), params)
 
 
-def your_sanity_checks(): 
+def your_sanity_checks():
     """
     Use this space add any additional sanity checks by running:
-        python q2_neural.py 
+        python q2_neural.py
     This function will not be called by the autograder, nor will
     your additional tests be graded.
     """
@@ -102,7 +102,7 @@ def your_sanity_checks():
     labels = np.zeros((N, dimensions[2]))
     for i in xrange(N):
         labels[i,random.randint(0,dimensions[2]-1)] = 1
-    
+
     params = np.random.randn((dimensions[0] + 1) * dimensions[1] + (
         dimensions[1] + 1) * dimensions[2], )
 
