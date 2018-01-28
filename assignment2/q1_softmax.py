@@ -8,7 +8,7 @@ def softmax(x):
   You might find the tensorflow functions tf.exp, tf.reduce_max,
   tf.reduce_sum, tf.expand_dims useful. (Many solutions are possible, so you may
   not need to use all of these functions). Recall also that many common
-  tensorflow operations are sugared (e.g. x * y does a tensor multiplication
+  tensorflow op`erations are sugared (e.g. x * y does a tensor multiplication
   if x and y are both tensors). Make sure to implement the numerical stability
   fixes as in the previous homework!
 
@@ -20,9 +20,9 @@ def softmax(x):
     out: tf.Tensor with shape (n_sample, n_features). You need to construct this
          tensor in this problem.
   """
+  c = tf.exp(x - tf.reduce_max(x, axis = [len(x.get_shape()) -1], keep_dims=True))
 
-  c = tf.exp(x)/tf.reduce_sum(tf.exp(x), axis=1)
-  return c
+  return c / tf.reduce_sum(c, axis = [len(x.get_shape()) -1], keep_dims=True)
 
 def cross_entropy_loss(y, yhat):
   """
@@ -67,6 +67,7 @@ def test_softmax_basic():
   assert np.amax(np.fabs(test1 - np.array(
       [0.26894142,  0.73105858]))) <= 1e-6
 
+  print "First test passed"
   test2 = softmax(tf.convert_to_tensor(
       np.array([[-1001,-1002]]), dtype=tf.float32))
   with tf.Session():
