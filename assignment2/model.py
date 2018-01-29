@@ -9,7 +9,7 @@ class Model(object):
   def load_data(self):
     """Loads data from disk and stores it in memory.
 
-    Feel free to add instance variables to Model object that store loaded data.    
+    Feel free to add instance variables to Model object that store loaded data.
     """
     raise NotImplementedError("Each Model must re-implement this method.")
 
@@ -36,12 +36,12 @@ class Model(object):
         <placeholder>: <tensor of values to be passed for placeholder>,
         ....
     }
-  
+
     If label_batch is None, then no labels are added to feed_dict.
 
     Hint: The keys for the feed_dict should be a subset of the placeholder
           tensors created in add_placeholders.
-    
+
     Args:
       input_batch: A batch of input data.
       label_batch: A batch of label data.
@@ -77,7 +77,7 @@ class Model(object):
     """Runs an epoch of training.
 
     Trains the model for one-epoch.
-  
+
     Args:
       sess: tf.Session() object
       input_data: np.ndarray of shape (n_samples, n_features)

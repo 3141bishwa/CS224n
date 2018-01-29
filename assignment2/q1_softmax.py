@@ -47,9 +47,11 @@ def cross_entropy_loss(y, yhat):
           tensor in the problem.
   """
   ### YOUR CODE HERE
-  raise NotImplementedError
+  mid = tf.multiply(tf.to_float(y), tf.log(yhat))
+
+
   ### END YOUR CODE
-  return out
+  return tf.negative(tf.reduce_sum(mid))
 
 
 def test_softmax_basic():
@@ -90,6 +92,8 @@ def test_cross_entropy_loss_basic():
       tf.convert_to_tensor(yhat, dtype=tf.float32))
   with tf.Session():
     test1 = test1.eval()
+
+  print test1
   result = -3 * np.log(.5)
   assert np.amax(np.fabs(test1 - result)) <= 1e-6
   print "Basic (non-exhaustive) cross-entropy tests pass\n"
